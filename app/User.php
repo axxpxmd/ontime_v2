@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\PersonalInformation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $table = 'users';
-    protected $guarded = [];
+    // protected $guarded = ['id', 'username'];
 
     public function role()
     {
@@ -51,5 +52,10 @@ class User extends Authenticatable
         } else {
             return config('app.sftp_src') . 'default.png';
         }
+    }
+
+    public function personalInformation()
+    {
+        return $this->hasOne(PersonalInformation::class, 'user_id');
     }
 }
