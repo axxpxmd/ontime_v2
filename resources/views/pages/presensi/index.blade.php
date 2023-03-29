@@ -8,22 +8,24 @@
                 <div class="card shadow animate__animated animate__fadeInLeft">
                     <div class="card-body">
                         <div class="col-md-12">
-                            <div class="row">
+                            <div class="row h-100">
                                 <div class="col-md-4">
                                     <img class="img-fluid mx-auto d-block rounded-circle img-circular" width="90" src="{{ asset('images/default.png') }}" alt="Foto Profil">
                                     <div class="text-center mt-3">
-                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">Administrator</p>
+                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">Asip Hamdi </p>
                                     </div> 
                                 </div>
-                                <div class="col-md-8">
-                                    <span class="m-none" style="border-left: 3px solid #E7E8EA; height: 125px; position: absolute"></span>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">OPD </div>
-                                        <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">KOMINFO</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">Unit Kerja </div>
-                                        <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">Sub Koordinator Pengembangan Penyelenggaraan e-Government</div>
+                                <div class="col-md-8 my-auto">
+                                    <span class="m-none" style="border-left: 3px solid #E7E8EA; min-height: 40% !important; position: absolute"></span>
+                                    <div class="mx-auto">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">OPD </div>
+                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">KOMINFO</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">Unit Kerja </div>
+                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">Sub Koordinator Pengembangan Penyelenggaraan e-Government</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -103,11 +105,11 @@
                         <thead>
                             <th>No</th>
                             <th>Username</th>
-                            <th style="padding-left: 10px !important">Nama</th>
+                            <th>Nama</th>
                             <th>Keterangan</th>
                             <th>Jam Masuk</th>
                             <th>Jam Keluar</th>
-                            <th>Jamk Kerja</th>
+                            <th>Jam Kerja</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody></tbody>
@@ -144,14 +146,14 @@
             }
         },
         columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, align: 'center', className: 'text-center'},
-            {data: 'username', name: 'username'},
-            {data: 'nama', name: 'nama'},
-            {data: 'ket', name: 'ket'},
-            {data: 'jam_masuk', name: 'jam_masuk'},
-            {data: 'jam_keluar', name: 'jam_keluar'},
-            {data: 'jam_kerja', name: 'jam_kerja'},
-            {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, align: 'center', className: 'text-center align-middle'},
+            {data: 'username', name: 'username', className: 'align-middle'},
+            {data: 'nama', name: 'nama', className: 'align-middle'},
+            {data: 'ket', name: 'ket', className: 'align-middle'},
+            {data: 'jam_masuk', name: 'jam_masuk', className: 'align-middle'},
+            {data: 'jam_keluar', name: 'jam_keluar', className: 'align-middle'},
+            {data: 'jam_kerja', name: 'jam_kerja', className: 'align-middle'},
+            {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center align-middle'},
         ]
     });
 
