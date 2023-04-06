@@ -13,37 +13,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $table = 'users';
-    // protected $guarded = ['id', 'username'];
-
-    public function role()
-    {
-        return $this->belongsTo('App\Role');
-    }
-
-    private function getUserRole()
-    {
-        return $this->role()->getResults();
-    }
-
-    private function checkRole($role)
-    {
-        return (strtolower($role) == strtolower($this->have_role->role)) ? true : false;
-    }
-
-    public function hasRole($roles)
-    {
-        $this->have_role = $this->getUserRole();
-
-        if (is_array($roles)) {
-            foreach ($roles as $need_role) {
-                if ($this->checkRole($need_role)) {
-                    return true;
-                }
-            }
-        } else {
-            return $this->checkRole($roles);
-        }
-    }
+    protected $guarded = ['id', 'username'];
 
     public function getPhoto()
     {

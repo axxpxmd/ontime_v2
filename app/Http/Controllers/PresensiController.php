@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use DataTables;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // Models
 use App\Model\OPD;
 use App\Model\Present;
 use App\Model\Utility;
+use App\Models\JamKerja;
 
 class PresensiController extends Controller
 {
@@ -18,9 +20,14 @@ class PresensiController extends Controller
     public function index(Request $request)
     {
         $title = $this->title;
+        $shift = Auth::user()->shift_id;
+        $dateToday = date('Y-m-d');
+        $user_id   = Auth::user()->id;
 
         $opds = OPD::select('id', 'nama')->get();
         $keterangans = Utility::keterangan();
+        $jamKerja    = JamKerja::whereN(date('N'))->where('shift_id', $shift)->first();
+        $absen       = Present::where('tanggal', $dateToday)->where('user_id', $user_id)->first();
 
         // Get Params
         $ket = $request->ket;
@@ -35,7 +42,10 @@ class PresensiController extends Controller
         return view('pages.presensi.index', compact(
             'title',
             'opds',
-            'keterangans'
+            'keterangans',
+            'jamKerja',
+            'absen',
+            'dateToday'
         ));
     }
 

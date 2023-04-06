@@ -39,8 +39,8 @@
                         <div class="row">
                             <div class="col-md-6 text-center-m">
                                 <p class="m-0 fs-13 text-black-50 font-weight-bold">Jam Kerja</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">07:30 - 15:00</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">Masuk : -</p>
+                                <p class="m-0 fs-13 text-black font-weight-bold">{{ $jamKerja->mulai_kerja }} - {{ $jamKerja->selesai_kerja }}</p>
+                                <p class="m-0 fs-13 text-black font-weight-bold">Masuk : {{ $absen->jam_masuk ? $absen->jam_masuk : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
                                 <img src="{{ asset('images/clock.png') }}" class="mt-2" width="50" alt="Jam">
@@ -53,8 +53,8 @@
                         <div class="row">
                             <div class="col-md-6 text-center-m">
                                 <p class="m-0 fs-13 text-black-50 font-weight-bold">Jam Kerja</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">07:30 - 15:00</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">Masuk : -</p>
+                                <p class="m-0 fs-13 text-black font-weight-bold">{{ Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
+                                <p class="m-0 fs-13 text-black font-weight-bold">Keluar : {{ $absen->jam_keluar ? $absen->jam_keluar : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
                                 <img src="{{ asset('images/calender.png') }}" class="mt-2" width="50" alt="Jam">
