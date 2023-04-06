@@ -25,4 +25,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/logout', 'AuthController@logout')->name('logout');
 
     Route::get('kehadiran', 'PresensiController@index')->name('kehadiran');
+    Route::post('kehadiaran/get-lokasi', 'PresensiController@getLokasi')->name('kehadiran.getLokasi');
 });

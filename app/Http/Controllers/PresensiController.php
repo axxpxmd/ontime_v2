@@ -55,7 +55,9 @@ class PresensiController extends Controller
 
         return DataTables::of($data)
             ->addColumn('action', function ($p) {
-                return 'action';
+                $lokasi = "<a href='#' class='text-success fs-20 m-r-10' onclick='modalMap(" . $p->id . ")' ><i class='ni ni-square-pin'></i></a>";
+                $hapus  = "<a href='#' class='text-danger fs-20' onclick='delete(" . $p->id . ")' ><i class='ni ni-fat-remove'></i></a>";
+                return $lokasi . $hapus;
             })
             ->addColumn('username', function ($p) {
                 return $p->user->username;
@@ -69,13 +71,13 @@ class PresensiController extends Controller
             ->addColumn('jam_masuk', function ($p) {
                 $nama_pegawai =  $p->user->personalInformation ? $p->user->personalInformation->nama : '-';
                 $foto_datang  = "<br><a data-fancybox data-caption='Foto Datang : " . $nama_pegawai . "' href='" . $p->fotoDatang() . "'><img src='" . $p->fotoDatang() . "' width='50px' height='50px'></a>";
-                
+
                 return $p->jam_masuk ? $p->jam_masuk . $foto_datang : '-';
             })
             ->addColumn('jam_keluar', function ($p) {
                 $nama_pegawai =  $p->user->personalInformation ? $p->user->personalInformation->nama : '-';
                 $foto_pulang  = "<br><a data-fancybox data-caption='Foto Pulang : " . $nama_pegawai . "' href='" . $p->fotoPulang() . "'><img src='" . $p->fotoPulang() . "' width='50px' height='50px'></a>";
-                
+
                 return $p->jam_keluar ? $p->jam_keluar . $foto_pulang : '-';
             })
             ->addColumn('jam_kerja', function ($p) {
@@ -84,5 +86,12 @@ class PresensiController extends Controller
             ->addIndexColumn()
             ->rawColumns(['action', 'jam_masuk', 'jam_keluar'])
             ->make(true);
+    }
+
+    public function getLokasi(Request $request)
+    {
+        $present = Present::findOrFail($request->id);
+
+        echo json_encode($present);
     }
 }

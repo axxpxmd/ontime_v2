@@ -19,7 +19,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     
     <!-- CSS -->
-    @yield('style')
+    @yield('styles')
+    @stack('styles')
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/util.css') }}">
     <link rel="stylesheet" href="{{ asset('css/myStyle.css') }}">
@@ -67,4 +68,5 @@
     </script>
     @yield('scripts')
     @stack('scripts')
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
 </html>

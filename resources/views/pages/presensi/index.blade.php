@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title', '| '.$title.'')
+@push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+@endpush
 @section('content')
 <div class="container-fluid mt-3" >
     <div class="col-md-12">
@@ -119,8 +122,36 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalMap" tabindex="-1" role="dialog" aria-labelledby="modalMap" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-3 ">
+                <p class="fs-14 font-weight-bolder text-black m-0">Lokasi Absen</p>
+            </div>
+            <div class="row lok_datang" style="display: none">
+                <div class="col-md-12 p-4">
+                    <center>
+                        <p class="fs-14 m-0 mb-3">Lokasi Datang</p>
+                    </center>
+                    <div id="map" style="width: 100%;height:300px"></div>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="row lok_pulang" style="display: none">
+                <div class="col-md-12 p-4">
+                    <center>
+                        <p class="fs-14 m-0 mb-3">Lokasi Pulang</p>
+                    </center>
+                    <div id="map2" style="width: 100%;height:300px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@include('layouts.loading')
 @endsection
 @push('scripts')
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <script type="text/javascript">
     var table = $('#dataTable').dataTable({
         scrollX: true,
@@ -162,5 +193,90 @@
         table.api().ajax.reload();
     }
 
+    OpenStreetMap = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+    OpenStreetMap2 = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+
+    var pc = true;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        pc = false;
+    }
+    var map, map2;
+
+    function modalMap(id) {
+        $('.lok_datang').hide();
+        $('.lok_pulang').hide();
+        const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+       
+        $.ajax({
+            url: "{{ route('kehadiran.getLokasi') }}",
+            method: 'post',
+            dataType: 'json',
+            data: {
+                _token: CSRF_TOKEN,
+                id: id
+            },
+            success: function(data) {
+                if (map != undefined) {
+                    map.remove();
+                }
+                if (map2 != undefined) {
+                    map2.remove();
+                }
+                if (data.lokasi_datang) {
+                    $('.lok_datang').show();
+
+                    map = L.map("map", {
+                        center: [-6.291100, 106.715421],
+                        zoom: 15,
+                        dragging: pc,
+                        tap: pc,
+                        pixelRatio: window.devicePixelRatio || 1,
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: "topleft"
+                        },
+                        measureControl: false,
+                        layers: [OpenStreetMap]
+                    })
+
+                    latlng = data.lokasi_datang.split(', ');
+                    let marker = L.marker([latlng[0], latlng[1]]).addTo(map);
+                    map.panTo(new L.LatLng(latlng[0], latlng[1]));
+                }
+                if (data.lokasi_pulang) {
+                    $('.lok_pulang').show();
+
+                    map2 = L.map("map2", {
+                        center: [-6.291100, 106.715421],
+                        zoom: 15,
+                        dragging: pc,
+                        tap: pc,
+                        pixelRatio: window.devicePixelRatio || 1,
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: "topleft"
+                        },
+                        measureControl: false,
+                        layers: [OpenStreetMap2]
+                    })
+
+                    latlng = data.lokasi_pulang.split(', ');
+                    let marker = L.marker([latlng[0], latlng[1]]).addTo(map2);
+                    map2.panTo(new L.LatLng(latlng[0], latlng[1]));
+                }
+
+                setTimeout(function() {
+                    map.invalidateSize();
+                    if (data.lokasi_pulang) {
+                        map2.invalidateSize(); 
+                        map.invalidateSize();  
+                    }
+                }, 1000);
+
+                $('#modalMap').modal('show');
+            }
+        });
+
+    };
 </script>
 @endpush
