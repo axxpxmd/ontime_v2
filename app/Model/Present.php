@@ -27,9 +27,14 @@ class Present extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function personalInformation()
+    {
+        return $this->belongsTo(PersonalInformation::class, 'user_id', 'user_id');
+    }
+
     public static function present($tanggal, $ket, $opd_id, $nama_pegawai)
     {
-        $data = Present::select('presents.id', 'presents.user_id', 'keterangan', 'jam_masuk', 'jam_keluar', 'foto_datang', 'foto_pulang')
+        $data = Present::select('presents.id', 'presents.user_id', 'keterangan', 'jam_masuk', 'jam_keluar', 'foto_datang', 'foto_pulang', 'lokasi_datang', 'lokasi_pulang')
             ->with(['user:id,username', 'user.personalInformation:id,user_id,nama'])
             ->WhereIn('keterangan', array_values(Utility::keterangan()))
             ->when($tanggal, function ($q) use ($tanggal) {

@@ -57,7 +57,12 @@ class PresensiController extends Controller
             ->addColumn('action', function ($p) {
                 $lokasi = "<a href='#' class='text-success fs-20 m-r-10' onclick='modalMap(" . $p->id . ")' ><i class='ni ni-square-pin'></i></a>";
                 $hapus  = "<a href='#' class='text-danger fs-20' onclick='delete(" . $p->id . ")' ><i class='ni ni-fat-remove'></i></a>";
-                return $lokasi . $hapus;
+
+                if ($p->lokasi_datang || $p->lokasi_pulang) {
+                    return $lokasi . $hapus;
+                } else {
+                    return $hapus;
+                }
             })
             ->addColumn('username', function ($p) {
                 return $p->user->username;
@@ -91,7 +96,12 @@ class PresensiController extends Controller
     public function getLokasi(Request $request)
     {
         $present = Present::findOrFail($request->id);
+        $dataJson = [
+            'lokasi_datang' => $present->lokasi_datang,
+            'lokasi_pulang' => $present->lokasi_pulang,
+            'nama' => $present->personalInformation->nama
+        ];
 
-        echo json_encode($present);
+        echo json_encode($dataJson);
     }
 }

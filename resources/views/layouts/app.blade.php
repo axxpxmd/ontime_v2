@@ -36,13 +36,12 @@
     <!-- Navigation -->
     @include('layouts.sidebar')
     <main class="main-content position-relative border-radius-lg">
+        <div class="alert alert-warning text-center position-absolute fw-bold fs-14 p-2 text-white" style="z-index: 9999999; left: 42%; margin-top: 20px; display: none" id="loading">Harap tunggu.</div>
         <!-- Header -->
         @include('layouts.header')
         <!-- Content -->
         @yield('content')
     </main>
-    <!-- Config -->
-    {{-- @include('layouts.config') --}}
 </body>
     <!-- JS -->
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>

@@ -126,12 +126,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header px-3 py-3 ">
-                <p class="fs-14 font-weight-bolder text-black m-0">Lokasi Absen</p>
+                <p class="fs-14 text-black m-0">Lokasi Absen <span class="font-weight-bolder" id="namaUserLokasi"></span></p>
             </div>
             <div class="row lok_datang" style="display: none">
                 <div class="col-md-12 p-4">
                     <center>
-                        <p class="fs-14 m-0 mb-3">Lokasi Datang</p>
+                        <p class="fs-14 m-0 mb-3 textbl">Lokasi Datang</p>
                     </center>
                     <div id="map" style="width: 100%;height:300px"></div>
                 </div>
@@ -203,6 +203,7 @@
     var map, map2;
 
     function modalMap(id) {
+        $('#loading').show();
         $('.lok_datang').hide();
         $('.lok_pulang').hide();
         const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -216,6 +217,7 @@
                 id: id
             },
             success: function(data) {
+                console.log(data);
                 if (map != undefined) {
                     map.remove();
                 }
@@ -273,10 +275,11 @@
                     }
                 }, 1000);
 
+                $('#loading').hide();
+                $('#namaUserLokasi').html(data.nama)
                 $('#modalMap').modal('show');
             }
         });
-
     };
 </script>
 @endpush
