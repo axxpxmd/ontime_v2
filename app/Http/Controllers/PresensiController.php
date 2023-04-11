@@ -55,8 +55,8 @@ class PresensiController extends Controller
 
         return DataTables::of($data)
             ->addColumn('action', function ($p) {
-                $lokasi = "<a href='#' class='text-success fs-20 m-r-10' onclick='modalMap(" . $p->id . ")' ><i class='ni ni-square-pin'></i></a>";
-                $hapus  = "<a href='#' class='text-danger fs-20' onclick='delete(" . $p->id . ")' ><i class='ni ni-fat-remove'></i></a>";
+                $lokasi = "<a href='#' class='text-success fs-18 m-r-20' title='Lokasi Absen' onclick='modalMap(" . $p->id . ")' ><i class='fa fa-map-location-dot'></i></a>";
+                $hapus  = "<a href='#' class='text-danger fs-18' title='Hapus Absen' onclick='delete(" . $p->id . ")' ><i class='fa fa-trash-can'></i></a>";
 
                 if ($p->lokasi_datang || $p->lokasi_pulang) {
                     return $lokasi . $hapus;
@@ -86,10 +86,14 @@ class PresensiController extends Controller
                 return $p->jam_keluar ? $p->jam_keluar . $foto_pulang : '-';
             })
             ->addColumn('jam_kerja', function ($p) {
-                return '-';
+                $jam = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 0, 2) . "</span>" . ' Jam';
+                $menit = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 3, 2) . "</span>" . ' Menit';
+                $detik = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 6, 2) . "</span>" . ' Detik';
+
+                return $p->total_jam ?  $jam . ' ' . $menit . ' ' . $detik : '';
             })
             ->addIndexColumn()
-            ->rawColumns(['action', 'jam_masuk', 'jam_keluar'])
+            ->rawColumns(['action', 'jam_masuk', 'jam_keluar', 'jam_kerja'])
             ->make(true);
     }
 
