@@ -75,7 +75,7 @@ class PresensiController extends Controller
             })
             ->addColumn('jam_masuk', function ($p) {
                 $nama_pegawai =  $p->user->personalInformation ? $p->user->personalInformation->nama : '-';
-                $foto_datang  = "<br><a data-fancybox data-caption='Foto Datang : " . $nama_pegawai . "' href='" . $p->fotoDatang() . "'><img src='" . $p->fotoDatang() . "' width='50px' height='50px'></a>";
+                $foto_datang  = "<br><a data-fancybox data-caption='Foto Datang : " . $nama_pegawai . "' href='" . $p->fotoDatang() . "'><img class='rounded' src='" . $p->fotoDatang() . "' width='50px' height='50px'></a>";
 
                 return $p->jam_masuk ? $p->jam_masuk . $foto_datang : '-';
             })
