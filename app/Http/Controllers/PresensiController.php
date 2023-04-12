@@ -23,6 +23,7 @@ class PresensiController extends Controller
         $shift = Auth::user()->shift_id;
         $dateToday = date('Y-m-d');
         $user_id   = Auth::user()->id;
+        $keterangans = Utility::keterangan();
 
         $opds = OPD::select('id', 'nama')->get();
         $keterangans = Utility::keterangan();
@@ -45,7 +46,8 @@ class PresensiController extends Controller
             'keterangans',
             'jamKerja',
             'absen',
-            'dateToday'
+            'dateToday',
+            'keterangans'
         ));
     }
 
@@ -55,11 +57,12 @@ class PresensiController extends Controller
 
         return DataTables::of($data)
             ->addColumn('action', function ($p) {
-                $lokasi = "<a href='#' class='text-success fs-18 m-r-20' title='Lokasi Absen' onclick='modalMap(" . $p->id . ")' ><i class='fa fa-map-location-dot'></i></a>";
-                $hapus  = "<a href='#' class='text-danger fs-18' title='Hapus Absen' onclick='delete(" . $p->id . ")' ><i class='fa fa-trash-can'></i></a>";
+                $lokasi = "<a href='#' class='text-success fs-18 m-r-15' title='Lokasi Absen' onclick='modalMap(" . $p->id . ")' ><i class='fa fa-map-location-dot'></i></a>";
+                $hapus  = "<a href='#' class='text-danger fs-18 m-r-15' title='Hapus Absen' onclick='delete(" . $p->id . ")' ><i class='fa fa-trash-can'></i></a>";
+                $edit   = "<a href='#' class='text-info fs-18' title='Edit Absen' onclick='editAbsen(" . $p->id . ")'><i class='fa fa-pen-to-square'></i></a>";
 
                 if ($p->lokasi_datang || $p->lokasi_pulang) {
-                    return $lokasi . $hapus;
+                    return $lokasi . $hapus . $edit;
                 } else {
                     return $hapus;
                 }
@@ -81,16 +84,12 @@ class PresensiController extends Controller
             })
             ->addColumn('jam_keluar', function ($p) {
                 $nama_pegawai =  $p->user->personalInformation ? $p->user->personalInformation->nama : '-';
-                $foto_pulang  = "<br><a data-fancybox data-caption='Foto Pulang : " . $nama_pegawai . "' href='" . $p->fotoPulang() . "'><img src='" . $p->fotoPulang() . "' width='50px' height='50px'></a>";
+                $foto_pulang  = "<br><a data-fancybox data-caption='Foto Pulang : " . $nama_pegawai . "' href='" . $p->fotoPulang() . "'><img class='rounded' src='" . $p->fotoPulang() . "' width='50px' height='50px'></a>";
 
                 return $p->jam_keluar ? $p->jam_keluar . $foto_pulang : '-';
             })
             ->addColumn('jam_kerja', function ($p) {
-                $jam = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 0, 2) . "</span>" . ' Jam';
-                $menit = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 3, 2) . "</span>" . ' Menit';
-                $detik = "<span class='font-weight-bolder'>" . \substr($p->total_jam, 6, 2) . "</span>" . ' Detik';
-
-                return $p->total_jam ?  $jam . ' ' . $menit . ' ' . $detik : '';
+                return $p->total_jam;
             })
             ->addIndexColumn()
             ->rawColumns(['action', 'jam_masuk', 'jam_keluar', 'jam_kerja'])
@@ -103,7 +102,10 @@ class PresensiController extends Controller
         $dataJson = [
             'lokasi_datang' => $present->lokasi_datang,
             'lokasi_pulang' => $present->lokasi_pulang,
-            'nama' => $present->personalInformation->nama
+            'nama' => $present->personalInformation->nama,
+            'keterangan' => $present->keterangan,
+            'jam_masuk' => $present->jam_masuk,
+            'jam_keluar' => $present->jam_keluar
         ];
 
         echo json_encode($dataJson);

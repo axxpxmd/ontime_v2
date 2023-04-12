@@ -126,12 +126,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header px-3 py-3 ">
-                <p class="fs-14 text-black m-0">Lokasi Absen <span class="font-weight-bolder" id="namaUserLokasi"></span></p>
+                <p class="fs-13 text-black m-0">Lokasi Absen <span class="font-weight-bolder" id="namaUserLokasi"></span></p>
             </div>
             <div class="row lok_datang" style="display: none">
                 <div class="col-md-12 p-4">
                     <center>
-                        <p class="fs-14 m-0 mb-3 textbl">Lokasi Datang</p>
+                        <p class="fs-13 m-0 mb-3 textbl">Lokasi Datang</p>
                     </center>
                     <div id="map" style="width: 100%;height:300px"></div>
                 </div>
@@ -140,10 +140,62 @@
             <div class="row lok_pulang" style="display: none">
                 <div class="col-md-12 p-4">
                     <center>
-                        <p class="fs-14 m-0 mb-3">Lokasi Pulang</p>
+                        <p class="fs-13 m-0 mb-3">Lokasi Pulang</p>
                     </center>
                     <div id="map2" style="width: 100%;height:300px"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalMap" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary px-3 py-3 ">
+                <p class="fs-14 m-0 text-white">Ubah Kehadiran <span class="font-weight-bolder" id="namaUserEdit"></span></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" class="fs-13 needs-validation" novalidate>
+                    {{ method_field('POST') }}
+                    <input type="text" class="d-none" id="id" name="id"/>
+                    <div id="alert"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="keterangan" class="col-form-label fs-13">Keterangan <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" name="keterangan" id="keterangan">
+                                @foreach ($keterangans as $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="jam_masuk" class="col-form-label fs-13">Jam Masuk</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="time" name="jam_masuk" id="jam_masuk" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="jam_keluar" class="col-form-label fs-13">Jam Keluar</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="time" name="jam_keluar" id="jam_keluar" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-sm btn-success fs-13 m-r-8" id="btnSave" title="Simpan Data"><i class="fa fa-pen-to-square m-r-8"></i>Simpan</button>
+                            <button type="button" class="btn btn-sm btn-danger fs-13" title="Batalkan"><i class="fa fa-xmark m-r-8"></i>Batalkan</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -188,6 +240,32 @@
         ]
     });
 
+    function editAbsen(id)
+    {
+        $('#loading').show();
+        const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+       
+        $.ajax({
+            url: "{{ route('kehadiran.getLokasi') }}",
+            method: 'post',
+            dataType: 'json',
+            data: {
+                _token: CSRF_TOKEN,
+                id: id
+            },
+            success: function(data) {
+                console.log(data);
+                $('#keterangan').val(data.keterangan).trigger("change.select2");
+                $('#jam_masuk').val(data.jam_masuk);
+                $('#jam_keluar').val(data.jam_keluar);
+
+                $('#loading').hide();
+                $('#namaUserEdit').html(data.nama)
+                $('#modalEdit').modal('show');
+            }
+        });
+    }
+
     pressOnChange();
     function pressOnChange(){
         table.api().ajax.reload();
@@ -217,7 +295,6 @@
                 id: id
             },
             success: function(data) {
-                console.log(data);
                 if (map != undefined) {
                     map.remove();
                 }
