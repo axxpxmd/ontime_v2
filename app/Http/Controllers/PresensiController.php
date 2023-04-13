@@ -96,6 +96,18 @@ class PresensiController extends Controller
             ->make(true);
     }
 
+    public function getTotalAbsen(Request $request)
+    {
+        $tanggal = $request->tanggal;
+        $ket = $request->ket;
+        $opd_id = $request->opd_id;
+        $nama_pegawai = $request->nama_pegawai;
+
+        $totalAbsen = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
+
+        return ['totalAbsen' => count($totalAbsen)];
+    }
+
     public function getDataAbsen(Request $request)
     {
         $present = Present::findOrFail($request->id);

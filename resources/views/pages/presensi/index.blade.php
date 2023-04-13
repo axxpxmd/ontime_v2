@@ -72,7 +72,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class="mb-3">
-                    <p class="m-0 font-weight-bold fs-13 text-black">Total Kehadiran ( 900 )</p>
+                    <p class="m-0 font-weight-bold fs-13 text-black">Total Kehadiran ( <span id="totalAbsen"></span> )</p>
                 </div>
                 <div class="row">
                     <div class="col-md-2 mb-5-m px-1">
@@ -237,6 +237,22 @@
         ]
     });
 
+    pressOnChange();
+    function pressOnChange(){
+        table.api().ajax.reload();
+
+        tanggal = $('#tanggal').val();
+        ket = $('#ket').val();
+        opd_id = $('#opd_id').val();
+        nama_pegawai = $('#nama_pegawai').val();
+
+        url = "{{ route('kehadiran.getTotalAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
+
+        $.get(url, function(data){
+            $('#totalAbsen').html(data.totalAbsen)
+        }, 'JSON');
+    }
+
     function editAbsen(id) {
         $('#loading').show();
         $('#alert').html('');
@@ -284,11 +300,6 @@
         });
         return false;
     });
-
-    pressOnChange();
-    function pressOnChange(){
-        table.api().ajax.reload();
-    }
 
     OpenStreetMap = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     OpenStreetMap2 = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
