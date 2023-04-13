@@ -96,7 +96,7 @@ class PresensiController extends Controller
             ->make(true);
     }
 
-    public function getLokasi(Request $request)
+    public function getDataAbsen(Request $request)
     {
         $present = Present::findOrFail($request->id);
         $dataJson = [

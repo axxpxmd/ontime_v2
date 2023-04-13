@@ -125,13 +125,14 @@
 <div class="modal fade" id="modalMap" tabindex="-1" role="dialog" aria-labelledby="modalMap" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header px-3 py-3 ">
-                <p class="fs-13 text-black m-0">Lokasi Absen <span class="font-weight-bolder" id="namaUserLokasi"></span></p>
+            <div class="modal-header bg-primary px-3 py-3 ">
+                <p class="fs-14 m-0 text-white">Lokasi Absen <span class="font-weight-bolder" id="namaUserLokasi"></span></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="row lok_datang" style="display: none">
                 <div class="col-md-12 p-4">
                     <center>
-                        <p class="fs-13 m-0 mb-3 textbl">Lokasi Datang</p>
+                        <p class="fs-13 m-0 mb-3 font-weight-bolder">Lokasi Datang</p>
                     </center>
                     <div id="map" style="width: 100%;height:300px"></div>
                 </div>
@@ -140,7 +141,7 @@
             <div class="row lok_pulang" style="display: none">
                 <div class="col-md-12 p-4">
                     <center>
-                        <p class="fs-13 m-0 mb-3">Lokasi Pulang</p>
+                        <p class="fs-13 m-0 mb-3 font-weight-bolder">Lokasi Pulang</p>
                     </center>
                     <div id="map2" style="width: 100%;height:300px"></div>
                 </div>
@@ -148,10 +149,10 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalMap" aria-hidden="true">
+<div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalMap" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary px-3 py-3 ">
+            <div class="modal-header bg-primary px-3 py-3">
                 <p class="fs-14 m-0 text-white">Ubah Kehadiran <span class="font-weight-bolder" id="namaUserEdit"></span></p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -192,7 +193,7 @@
                         <div class="col-sm-4"></div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-sm btn-success fs-13 m-r-8" id="btnSave" title="Simpan Data"><i class="fa fa-pen-to-square m-r-8"></i>Simpan</button>
-                            <button type="button" class="btn btn-sm btn-danger fs-13" title="Batalkan"><i class="fa fa-xmark m-r-8"></i>Batalkan</button>
+                            <button type="button" class="btn btn-sm btn-danger fs-13" data-bs-dismiss="modal" title="Batalkan"><i class="fa fa-xmark m-r-8"></i>Batalkan</button>
                         </div>
                     </div>
                 </form>
@@ -246,7 +247,7 @@
         const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
        
         $.ajax({
-            url: "{{ route('kehadiran.getLokasi') }}",
+            url: "{{ route('kehadiran.getDataAbsen') }}",
             method: 'post',
             dataType: 'json',
             data: {
@@ -309,7 +310,7 @@
         const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
        
         $.ajax({
-            url: "{{ route('kehadiran.getLokasi') }}",
+            url: "{{ route('kehadiran.getDataAbsen') }}",
             method: 'post',
             dataType: 'json',
             data: {
