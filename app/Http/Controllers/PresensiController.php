@@ -24,6 +24,7 @@ class PresensiController extends Controller
         $dateToday = date('Y-m-d');
         $user_id   = Auth::user()->id;
         $keterangans = Utility::keterangan();
+        $opd_id_user = Auth::user()->personalInformation->opd_id;
 
         $opds = OPD::select('id', 'nama')->get();
         $keterangans = Utility::keterangan();
@@ -47,7 +48,8 @@ class PresensiController extends Controller
             'jamKerja',
             'absen',
             'dateToday',
-            'keterangans'
+            'keterangans',
+            'opd_id_user'
         ));
     }
 
@@ -148,7 +150,7 @@ class PresensiController extends Controller
             'total_jam'  => $total
         ]);
 
-        return response()->json(['message' => "Berhasil memperbaharui data."]);
+        return response()->json(['message' => 'Kehadiran tanggal "' . date('d F Y', strtotime($kehadiran->tanggal)) . '" berhasil diubah']);
     }
 
     public function deleteAbsen($id)

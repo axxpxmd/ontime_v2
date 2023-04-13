@@ -90,7 +90,7 @@
                         <select class="form-control select2" name="opd_id" id="opd_id" onchange="">
                             <option value="">Semua</option>
                             @foreach ($opds as $i)
-                                <option value="{{ $i->id }}">{{ $i->nama }}</option>
+                                <option value="{{ $i->id }}" {{ $opd_id_user == $i->id ? 'selected' : '' }}>{{ $i->nama }}</option>
                             @endforeach
                         </select>
                     </div>
