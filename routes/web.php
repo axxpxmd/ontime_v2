@@ -27,4 +27,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('kehadiran', 'PresensiController@index')->name('kehadiran');
     Route::post('kehadiaran/get-data-absen', 'PresensiController@getDataAbsen')->name('kehadiran.getDataAbsen');
     Route::patch('kehadiran/update-absen/{id}', 'PresensiController@updateAbsen')->name('kehaidran.updateAbsen');
+    Route::delete('kehadiran/delete-absen/{id}', 'PresensiController@deleteAbsen')->name('kehadiran.deleteAbsen');
 });

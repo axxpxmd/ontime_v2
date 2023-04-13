@@ -57,9 +57,9 @@ class PresensiController extends Controller
 
         return DataTables::of($data)
             ->addColumn('action', function ($p) {
-                $lokasi = "<a href='#' class='text-success fs-18 m-r-15' title='Lokasi Absen' onclick='modalMap(" . $p->id . ")' ><i class='fa fa-map-location-dot'></i></a>";
-                $hapus  = "<a href='#' class='text-danger fs-18 m-r-15' title='Hapus Absen' onclick='delete(" . $p->id . ")' ><i class='fa fa-trash-can'></i></a>";
-                $edit   = "<a href='#' class='text-info fs-18' title='Edit Absen' onclick='editAbsen(" . $p->id . ")'><i class='fa fa-pen-to-square'></i></a>";
+                $lokasi = "<a href='#' class='text-success fs-16 m-r-15' title='Lokasi Absen' onclick='modalMap(" . $p->id . ")' ><i class='fa fa-map-location-dot'></i></a>";
+                $hapus  = "<a href='#' class='text-danger fs-16 m-r-15' title='Hapus Absen' onclick='remove(" . $p->id . ")' ><i class='fa fa-trash-can'></i></a>";
+                $edit   = "<a href='#' class='text-info fs-16' title='Edit Absen' onclick='editAbsen(" . $p->id . ")'><i class='fa fa-pen-to-square'></i></a>";
 
                 if ($p->lokasi_datang || $p->lokasi_pulang) {
                     return $lokasi . $hapus . $edit;
@@ -133,9 +133,20 @@ class PresensiController extends Controller
             'keterangan' => $keterangan,
             'jam_masuk'  => $jam_masuk,
             'jam_keluar' => $jam_keluar,
-            'total_jam'  => $total 
+            'total_jam'  => $total
         ]);
 
         return response()->json(['message' => "Berhasil memperbaharui data."]);
+    }
+
+    public function deleteAbsen($id)
+    {
+        try {
+            Present::whereid($id)->delete();
+
+            return response()->json(["message" => "Berhasil Hapus Absen"]);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Gagal Hapus Absen"], 400);
+        }
     }
 }

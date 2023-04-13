@@ -13,7 +13,7 @@
                         <div class="col-md-12">
                             <div class="row h-100">
                                 <div class="col-md-4">
-                                    <img class="img-fluid mx-auto d-block rounded-circle img-circular" width="90" src="{{ asset('images/default.png') }}" alt="Foto Profil">
+                                    <img class="img-fluid mx-auto d-block rounded-circle img-circular" width="90" src="{{ Auth::user()->getPhoto() }}" alt="Foto Profil">
                                     <div class="text-center mt-3">
                                         <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">Asip Hamdi </p>
                                     </div> 
@@ -94,11 +94,11 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-2 mb-5-m px-1">
+                    <div class="col-md-2 mb-5-m px-1 ">
                         <input type="text" class="form-control" placeholder="Nama Pegawai " id="nama_pegawai" placeholder="" name="nama_pegawai" value="{{ request('nama_pegawai', '') }}">
                     </div>
                     <div class="col-md-2 mb-5-m px-1 text-center-m">
-                        <button type="submit" class="btn btn-primary m-r-10 fs-13" onclick="pressOnChange()"><i class="fa fa-search m-r-8"></i>Cari</button>
+                        <button type="submit" class="btn btn-primary m-l-5 m-r-10 fs-13" onclick="pressOnChange()"><i class="fa fa-search m-r-8"></i>Cari</button>
                         <button type="submit" class="btn btn-success fs-13"><i class="fa fa-download"></i></button>
                     </div>
                 </div>
@@ -131,18 +131,14 @@
             </div>
             <div class="row lok_datang" style="display: none">
                 <div class="col-md-12 p-4">
-                    <center>
-                        <p class="fs-13 m-0 mb-3 font-weight-bolder">Lokasi Datang</p>
-                    </center>
+                    <p class="fs-13 text-center m-0 mb-3 font-weight-bolder">Lokasi Datang</p>
                     <div id="map" style="width: 100%;height:300px"></div>
                 </div>
             </div>
             <hr class="m-0">
             <div class="row lok_pulang" style="display: none">
                 <div class="col-md-12 p-4">
-                    <center>
-                        <p class="fs-13 m-0 mb-3 font-weight-bolder">Lokasi Pulang</p>
-                    </center>
+                    <p class="fs-13 text-center m-0 mb-3 font-weight-bolder">Lokasi Pulang</p>
                     <div id="map2" style="width: 100%;height:300px"></div>
                 </div>
             </div>
@@ -381,5 +377,33 @@
             }
         });
     };
+
+    function remove(id){
+        $.confirm({
+            title: 'Konfirmasi',
+            content: 'Apakah Anda yakin ingin menghapus absen ini ?',
+            icon: 'fa fa-question text-danger',
+            theme: 'modern',
+            closeIcon: true,
+            animation: 'scale',
+            type: 'red',
+            buttons: {
+                ok: {
+                    text: "ok!",
+                    btnClass: 'btn-success',
+                    keys: ['enter'],
+                    action: function(){
+                        $.post("{{ route('kehadiran.deleteAbsen', ':id') }}".replace(':id', id), {'_method' : 'DELETE'}, function(data) {
+                            table.api().ajax.reload();
+                            success(data.message)
+                        }, "JSON").fail(function(){
+                            reload();
+                        });
+                    }
+                },
+                cancel: function(){}
+            }
+        });
+    }
 </script>
 @endpush
