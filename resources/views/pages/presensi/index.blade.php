@@ -156,8 +156,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="form" class="fs-13 needs-validation" novalidate>
-                    {{ method_field('POST') }}
+                <form id="form" class="fs-13">
+                    {{ method_field('PATCH') }}
                     <input type="text" class="d-none" id="id" name="id"/>
                     <div id="alert"></div>
                     <div class="form-group row">
@@ -177,7 +177,7 @@
                             <label for="jam_masuk" class="col-form-label fs-13">Jam Masuk</label>
                         </div>
                         <div class="col-sm-8">
-                            <input type="time" name="jam_masuk" id="jam_masuk" class="form-control">
+                            <input type="time" step="01" name="jam_masuk" id="jam_masuk" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -185,7 +185,7 @@
                             <label for="jam_keluar" class="col-form-label fs-13">Jam Keluar</label>
                         </div>
                         <div class="col-sm-8">
-                            <input type="time" name="jam_keluar" id="jam_keluar" class="form-control">
+                            <input type="time" step="01" name="jam_keluar" id="jam_keluar" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -240,9 +240,9 @@
         ]
     });
 
-    function editAbsen(id)
-    {
+    function editAbsen(id) {
         $('#loading').show();
+        $('#alert').html('');
         const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
        
         $.ajax({
@@ -254,17 +254,39 @@
                 id: id
             },
             success: function(data) {
-                console.log(data);
                 $('#keterangan').val(data.keterangan).trigger("change.select2");
                 $('#jam_masuk').val(data.jam_masuk);
                 $('#jam_keluar').val(data.jam_keluar);
+                $('#id').val(id);
 
-                $('#loading').hide();
+                $('#loading').hide();   
                 $('#namaUserEdit').html(data.nama)
                 $('#modalEdit').modal('show');
             }
         });
     }
+
+    $('#form').on('submit', function (event) {
+        $('#loading').show();
+        $('#alert').html('');
+        $('#btnSave').attr('disabled', true);
+        
+        url = "{{ route('kehaidran.updateAbsen', ':id') }}".replace(':id', $('#id').val());
+        $.post(url, $(this).serialize(), function(data){
+            $('#alert').html("<div class='alert alert-success alert-dismissible fs-14' role='alert'><strong>Sukses!</strong> " + data.message + "</div>");
+            table.api().ajax.reload();
+        },'json').fail(function(data){
+            err = ''; respon = data.responseJSON;
+            $.each(respon.errors, function(index, value){
+                err += "<li>" + value +"</li>";
+            });
+            $('#alert').html("<div class='alert alert-danger alert-dismissible fs-14' role='alert'>" + respon.message + "<ol class='pl-3 m-0'>" + err + "</ol></div>");
+        }).always(function(){
+            $('#loading').hide();
+            $('#btnSave').removeAttr('disabled');
+        });
+        return false;
+    });
 
     pressOnChange();
     function pressOnChange(){

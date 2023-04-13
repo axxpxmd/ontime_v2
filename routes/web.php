@@ -26,4 +26,5 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('kehadiran', 'PresensiController@index')->name('kehadiran');
     Route::post('kehadiaran/get-lokasi', 'PresensiController@getLokasi')->name('kehadiran.getLokasi');
+    Route::patch('kehadiran/update-absen/{id}', 'PresensiController@updateAbsen')->name('kehaidran.updateAbsen');
 });

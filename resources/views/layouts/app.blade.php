@@ -36,7 +36,7 @@
     <!-- Navigation -->
     @include('layouts.sidebar')
     <main class="main-content position-relative border-radius-lg">
-        <div class="alert alert-warning text-center position-absolute fw-bold fs-14 p-2 text-white" style="z-index: 9999999; left: 42%; margin-top: 20px; display: none" id="loading">Harap tunggu.</div>
+        <div class="alert alert-warning text-center position-absolute fw-bold fs-12 p-2" style="z-index: 9999999; left: 42%; margin-top: 20px; display: none" id="loading">Harap Tunggu</div>
         <!-- Header -->
         @include('layouts.header')
         <!-- Content -->

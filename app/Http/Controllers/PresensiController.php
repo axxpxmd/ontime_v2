@@ -110,4 +110,32 @@ class PresensiController extends Controller
 
         echo json_encode($dataJson);
     }
+
+    public function updateAbsen(Request $request, $id)
+    {
+        //* Validation
+        $request->validate([
+            'keterangan' => 'required'
+        ]);
+
+        $keterangan = $request->keterangan;
+        $jam_keluar = $request->jam_keluar;
+        $jam_masuk  = $request->jam_masuk;
+
+        //* Check total jam
+        $total = '';
+        if ($jam_keluar) {
+            list($totalJam, $total) = Utility::getTotalJam($jam_masuk, $jam_keluar);
+        }
+
+        $kehadiran = Present::find($id);
+        $kehadiran->update([
+            'keterangan' => $keterangan,
+            'jam_masuk'  => $jam_masuk,
+            'jam_keluar' => $jam_keluar,
+            'total_jam'  => $total 
+        ]);
+
+        return response()->json(['message' => "Berhasil memperbaharui data."]);
+    }
 }
