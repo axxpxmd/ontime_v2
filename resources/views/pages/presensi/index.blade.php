@@ -159,6 +159,14 @@
                     <div id="alert"></div>
                     <div class="form-group row">
                         <div class="col-sm-4">
+                            <label for="tanggalAbsen" class="col-form-label fs-13">Tanggal</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="date" readonly name="tanggalAbsen" id="tanggalAbsen" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
                             <label for="keterangan" class="col-form-label fs-13">Keterangan <span class="text-danger">*</span></label>
                         </div>
                         <div class="col-sm-8">
@@ -274,6 +282,7 @@
 
                 $('#loading').hide();   
                 $('#namaUserEdit').html(data.nama)
+                $('#tanggalAbsen').val(data.tanggal)
                 $('#modalEdit').modal('show');
             }
         });

@@ -119,7 +119,8 @@ class PresensiController extends Controller
             'nama' => $present->personalInformation->nama,
             'keterangan' => $present->keterangan,
             'jam_masuk' => $present->jam_masuk,
-            'jam_keluar' => $present->jam_keluar
+            'jam_keluar' => $present->jam_keluar,
+            'tanggal' => $present->tanggal
         ];
 
         echo json_encode($dataJson);
