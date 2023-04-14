@@ -254,14 +254,16 @@
         opd_id = $('#opd_id').val();
         nama_pegawai = $('#nama_pegawai').val();
 
+        urlParams = tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai
+
         // get total absen
-        urlGetTotalAbsen = "{{ route('kehadiran.getTotalAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
+        urlGetTotalAbsen = "{{ route('kehadiran.getTotalAbsen') }}?tanggal=" + urlParams;
         $.get(urlGetTotalAbsen, function(data){
             $('#totalAbsen').html(data.totalAbsen)
         }, 'JSON');
 
         // cetak absen
-        urlCetakAbsen = "{{ route('kahadiran.cetakAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
+        urlCetakAbsen = "{{ route('kahadiran.cetakAbsen') }}?tanggal=" + urlParams;
         $('#urlCetakAbsen').attr('href', urlCetakAbsen)
     }
 
