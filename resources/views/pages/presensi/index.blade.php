@@ -15,7 +15,7 @@
                                 <div class="col-md-4">
                                     <img class="img-fluid mx-auto d-block rounded-circle img-circular" width="90" src="{{ Auth::user()->getPhoto() }}" alt="Foto Profil">
                                     <div class="text-center mt-3">
-                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">Asip Hamdi </p>
+                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">{{ $namaLogin }}</p>
                                     </div> 
                                 </div>
                                 <div class="col-md-8 my-auto">

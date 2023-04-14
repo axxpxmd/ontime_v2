@@ -25,6 +25,7 @@ class PresensiController extends Controller
         $user_id   = Auth::user()->id;
         $keterangans = Utility::keterangan();
         $opd_id_user = Auth::user()->personalInformation->opd_id;
+        $namaLogin   = Auth::user()->personalInformation->nama;
 
         $opds = OPD::select('id', 'nama')->get();
         $keterangans = Utility::keterangan();
@@ -49,7 +50,8 @@ class PresensiController extends Controller
             'absen',
             'dateToday',
             'keterangans',
-            'opd_id_user'
+            'opd_id_user',
+            'namaLogin'
         ));
     }
 
