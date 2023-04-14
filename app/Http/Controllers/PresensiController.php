@@ -166,4 +166,28 @@ class PresensiController extends Controller
             return response()->json(["message" => "Gagal Hapus Absen"], 400);
         }
     }
+
+    public function cetakAbsen(Request $request)
+    {
+        // Get params
+        $tanggal = $request->tanggal;
+        $ket = $request->ket;
+        $opd_id = $request->opd_id;
+        $nama_pegawai = $request->nama_pegawai;
+
+        $datas = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->setPaper('legal', 'landscape');
+        $pdf->loadView('pages.presensi.report', compact(
+            'datas',
+            'tanggal',
+            'ket',
+            'opd_id',
+            'nama_pegawai'
+        ))->setPaper('a4', 'portrait');
+
+        return $pdf->download('Laporan Kehadiran - ' . $tanggal . ".pdf");
+    }
 }

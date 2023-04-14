@@ -28,5 +28,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('kehadiaran/get-data-absen', 'PresensiController@getDataAbsen')->name('kehadiran.getDataAbsen');
     Route::patch('kehadiran/update-absen/{id}', 'PresensiController@updateAbsen')->name('kehaidran.updateAbsen');
     Route::delete('kehadiran/delete-absen/{id}', 'PresensiController@deleteAbsen')->name('kehadiran.deleteAbsen');
-    Route::get('kehaidran/get-total-absen', 'PresensiController@getTotalAbsen')->name('kehadiran.getTotalAbsen');
+    Route::get('kehadiran/get-total-absen', 'PresensiController@getTotalAbsen')->name('kehadiran.getTotalAbsen');
+    Route::get('kehadiran/cetak-absen', 'PresensiController@cetakAbsen')->name('kahadiran.cetakAbsen');
 });

@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-md-2 mb-5-m px-1 text-center-m">
                         <button type="submit" class="btn btn-primary m-l-5 m-r-10 fs-13" onclick="pressOnChange()"><i class="fa fa-search m-r-8"></i>Cari</button>
-                        <button type="submit" class="btn btn-success fs-13"><i class="fa fa-download"></i></button>
+                        <a href="#" id="urlCetakAbsen" target="blank" class="btn btn-success fs-13"><i class="fa fa-download"></i></a>
                     </div>
                 </div>
                 <hr class="m-0">
@@ -254,11 +254,15 @@
         opd_id = $('#opd_id').val();
         nama_pegawai = $('#nama_pegawai').val();
 
-        url = "{{ route('kehadiran.getTotalAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
-
-        $.get(url, function(data){
+        // get total absen
+        urlGetTotalAbsen = "{{ route('kehadiran.getTotalAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
+        $.get(urlGetTotalAbsen, function(data){
             $('#totalAbsen').html(data.totalAbsen)
         }, 'JSON');
+
+        // cetak absen
+        urlCetakAbsen = "{{ route('kahadiran.cetakAbsen') }}?tanggal=" + tanggal + "&ket=" + ket + "&opd_id=" + opd_id + "&nama_pegawai=" + nama_pegawai;
+        $('#urlCetakAbsen').attr('href', urlCetakAbsen)
     }
 
     function editAbsen(id) {
