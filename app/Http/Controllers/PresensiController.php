@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 // Models
-use App\Model\OPD;
-use App\Model\Present;
-use App\Model\Utility;
+use App\Models\OPD;
+use App\Models\Present;
+use App\Models\Utility;
 use App\Models\JamKerja;
 
 class PresensiController extends Controller

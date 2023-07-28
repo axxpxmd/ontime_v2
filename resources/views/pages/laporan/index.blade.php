@@ -8,25 +8,25 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group row m-0">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3">
-                                    <label for="periode_mulai" class="float-right col-form-label fs-13">Periode Mulai</label>
+                                    <label for="periode_mulai" class="col-form-label fs-13">Periode Mulai</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="date" name="periode_mulai" id="periode_mulai" class="form-control fs-13 mb-3" value="{{ date('Y-m-d') }}">
+                                    <input type="date" name="periode_mulai" id="periode_mulai" class="form-control fs-13" value="{{ date('Y-m-01') }}">
                                 </div>
                             </div>
-                            <div class="form-group row m-0">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3">
-                                    <label for="periode_selesai" class="float-right col-form-label fs-13">Periode Selesai</label>
+                                    <label for="periode_selesai" class="col-form-label fs-13">Periode Selesai</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="date" name="periode_selesai" id="periode_selesai" class="form-control fs-13 mb-3" value="{{ date('Y-m-d') }}">
+                                    <input type="date" name="periode_selesai" id="periode_selesai" class="form-control fs-13" value="{{ date('Y-m-t') }}">
                                 </div>
                             </div>
-                            <div class="form-group row m-0">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3">
-                                    <label for="opd_id" class="float-right col-form-label fs-13">OPD</label>
+                                    <label for="opd_id" class="col-form-label fs-13">OPD</label>
                                 </div>
                                 <div class="col-sm-9">
                                     <select class="form-control select2" name="opd_id" id="opd_id" onchange="">
@@ -39,9 +39,9 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group row">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3">
-                                    <label for="unit_kerja_id" class="float-right col-form-label fs-13">Unit Kerja</label>
+                                    <label for="unit_kerja_id" class="col-form-label fs-13">Unit Kerja</label>
                                 </div>
                                 <div class="col-sm-9">
                                     <select class="form-control select2" name="unit_kerja_id" id="unit_kerja_id" onchange="">
@@ -49,9 +49,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3">
-                                    <label for="sub_unit_kerja_id" class="float-right col-form-label fs-13">Sub Unit Kerja</label>
+                                    <label for="sub_unit_kerja_id" class="col-form-label fs-13">Sub Unit Kerja</label>
                                 </div>
                                 <div class="col-sm-9">
                                     <select class="form-control select2" name="sub_unit_kerja_id" id="sub_unit_kerja_id" onchange="">
@@ -59,9 +59,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row my-2">
                                 <div class="col-sm-3"></div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 mt-1">
                                     <button class="btn btn-success btn-sm m-r-10" onclick="pressOnChange()"><i class="fa fa-search m-r-8"></i>Filter</button>
                                     <a target="_blank" href="#" class="btn btn-sm btn-primary ml-2" id="exportpdf"><i class="fas fa-print m-r-8"></i>Print</a>
                                 </div>

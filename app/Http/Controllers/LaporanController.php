@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 // Models
-use App\Model\OPD;
+use App\Models\OPD;
 
 class LaporanController extends Controller
 {
@@ -15,7 +15,8 @@ class LaporanController extends Controller
     public function index(Request $request)
     {
         $title = $this->title;
-        $opd_id_user = Auth::user()->personalInformation->opd_id;
+        $role_id   = Auth::user()->role_id;
+        $opd_id_user = $role_id == 1 ? null : Auth::user()->personalInformation->opd_id;
 
         $opds = OPD::select('id', 'nama')->get();
 
