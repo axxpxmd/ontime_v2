@@ -23,8 +23,9 @@ class PresensiController extends Controller
         $shift = Auth::user()->shift_id;
         $dateToday = date('Y-m-d');
         $user_id   = Auth::user()->id;
+        $role_id   = Auth::user()->role_id;
         $keterangans = Utility::keterangan();
-        $opd_id_user = Auth::user()->personalInformation->opd_id;
+        $opd_id_user = $role_id == 1 ? null : Auth::user()->personalInformation->opd_id;
         $namaLogin   = Auth::user()->personalInformation->nama;
 
         $opds = OPD::select('id', 'nama')->get();
@@ -82,7 +83,7 @@ class PresensiController extends Controller
             })
             ->addColumn('jam_masuk', function ($p) {
                 $nama_pegawai =  $p->user->personalInformation ? $p->user->personalInformation->nama : '-';
-                $foto_datang  = "<br><a data-fancybox data-caption='Foto Datang : " . $nama_pegawai . "' href='" . $p->fotoDatang() . "'><img class='rounded' src='" . $p->fotoDatang() . "' width='50px' height='50px'></a>";
+                $foto_datang  = "<br><a data-fancybox data-caption='Foto Datang : " . $nama_pegawai . "' href='" . $p->fotoDatang() . "'><img class='rounded mt-1' src='" . $p->fotoDatang() . "' width='50px' height='50px'></a>";
 
                 return $p->jam_masuk ? $p->jam_masuk . $foto_datang : '-';
             })
@@ -150,7 +151,8 @@ class PresensiController extends Controller
             'keterangan' => $keterangan,
             'jam_masuk'  => $jam_masuk,
             'jam_keluar' => $jam_keluar,
-            'total_jam'  => $total
+            'total_jam'  => $total,
+            'updated_by' => Auth::user()->username
         ]);
 
         return response()->json(['message' => 'Kehadiran tanggal "' . date('d F Y', strtotime($kehadiran->tanggal)) . '" berhasil diubah']);
@@ -177,6 +179,8 @@ class PresensiController extends Controller
 
         $datas = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
 
+        $opd = OPD::find($opd_id);
+
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->setPaper('legal', 'landscape');
@@ -185,7 +189,8 @@ class PresensiController extends Controller
             'tanggal',
             'ket',
             'opd_id',
-            'nama_pegawai'
+            'nama_pegawai',
+            'opd'
         ))->setPaper('a4', 'portrait');
 
         return $pdf->download('Laporan Kehadiran - ' . $tanggal . ".pdf");

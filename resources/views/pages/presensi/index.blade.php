@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card shadow animate__animated animate__fadeInRight">
+                <div class="card shadow animate__animated animate__fadeInRight" style="height: 78px !important">
                     <div class="card-body px-4 py-2">
                         <div class="row">
                             <div class="col-md-6 text-center-m">
@@ -46,12 +46,12 @@
                                 <p class="m-0 fs-13 text-black font-weight-bold">Masuk : {{ $absen->jam_masuk ? $absen->jam_masuk : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
-                                <img src="{{ asset('images/clock.png') }}" class="mt-2" width="50" alt="Jam">
+                                <img src="{{ asset('images/clock.png') }}" class="mt-2 m-none" width="50" alt="Jam">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card shadow bg-white mt-3 animate__animated animate__fadeInRight">
+                <div class="card shadow bg-white mt-3 animate__animated animate__fadeInRight" style="height: 78px !important">
                     <div class="card-body px-4 py-2">
                         <div class="row">
                             <div class="col-md-6 text-center-m">
@@ -60,7 +60,7 @@
                                 <p class="m-0 fs-13 text-black font-weight-bold">Keluar : {{ $absen->jam_keluar ? $absen->jam_keluar : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
-                                <img src="{{ asset('images/calender.png') }}" class="mt-2" width="50" alt="Jam">
+                                <img src="{{ asset('images/calender.png') }}" class="mt-2 m-none" width="50" alt="Jam">
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 mb-5-m px-1">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ request('tanggal', date('Y-m-d')) }}">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="col-md-1 mb-5-m px-1">
                         <select class="form-control select2" name="ket" id="ket" onchange="">
@@ -95,7 +95,7 @@
                         </select>
                     </div>
                     <div class="col-md-2 mb-5-m px-1 ">
-                        <input type="text" class="form-control" placeholder="Nama Pegawai " id="nama_pegawai" placeholder="" name="nama_pegawai" value="{{ request('nama_pegawai', '') }}">
+                        <input type="text" class="form-control" placeholder="Nama Pegawai " id="nama_pegawai" placeholder="" name="nama_pegawai">
                     </div>
                     <div class="col-md-2 mb-5-m px-1 text-center-m">
                         <button type="submit" class="btn btn-primary m-l-5 m-r-10 fs-13" onclick="pressOnChange()"><i class="fa fa-search m-r-8"></i>Cari</button>

@@ -30,4 +30,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('kehadiran/delete-absen/{id}', 'PresensiController@deleteAbsen')->name('kehadiran.deleteAbsen');
     Route::get('kehadiran/get-total-absen', 'PresensiController@getTotalAbsen')->name('kehadiran.getTotalAbsen');
     Route::get('kehadiran/cetak-absen', 'PresensiController@cetakAbsen')->name('kahadiran.cetakAbsen');
+
+    Route::get('laporan', 'LaporanController@index')->name('laporan');
 });

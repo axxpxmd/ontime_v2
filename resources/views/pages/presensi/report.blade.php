@@ -47,7 +47,11 @@
         <tr>
             <td>Tanggal</td>
             <td>: {{ Carbon\Carbon::createFromFormat('Y-m-d', $tanggal)->isoFormat('D MMMM Y') }}</td>
-        </tr> 
+        </tr>
+        <tr>
+            <td>OPD</td>
+            <td>: {{ $opd_id ? $opd->nama : '-' }}</td>
+        </tr>  
         <tr>
             <td>Keterangan</td>
             <td>: {{ $ket }}</td>
@@ -67,13 +71,16 @@
         </thead>
         <tbody>
             @forelse  ($datas as $index => $i)
+                @php
+                    $totalJam = explode(':', $i->total_jam);
+                @endphp
                 <tr class="d">
                     <td class="d text-center">{{ $index+1 }}</td>
                     <td class="d t-uppercase">{{ $i->personalInformation->nama }}</td>
                     <td class="d text-center">{{ $i->keterangan }}</td>
                     <td class="d text-center">{{ $i->jam_masuk }}</td>
                     <td class="d text-center">{{ $i->jam_keluar }}</td>
-                    <td class="d text-center">{{ $i->total_jam }}</td>
+                    <td class="d text-center">{{ $i->total_jam ? $totalJam[0] . ' Jam ' . $totalJam[1] . ' Menit ': '' }}</td>
                     <td class="d text-center">{{ Carbon\Carbon::createFromFormat('Y-m-d', $i->tanggal)->isoFormat('D MMMM Y') }}</td>
                 </tr>
             @empty
