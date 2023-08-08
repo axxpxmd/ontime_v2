@@ -8,14 +8,14 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6 mb-5-m">
-                <div class="card shadow animate__animated animate__fadeInLeft">
+                <div class="card shadow animate__animated animate__fadeInLeft"  style="height: 100% !important">
                     <div class="card-body">
                         <div class="col-md-12">
                             <div class="row h-100">
                                 <div class="col-md-4">
                                     <img class="img-fluid mx-auto d-block rounded-circle img-circular" width="90" src="{{ Auth::user()->getPhoto() }}" alt="Foto Profil">
                                     <div class="text-center mt-3">
-                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">{{ $namaLogin }}</p>
+                                        <p class="m-0 fs-13 text-uppercase font-weight-bolder text-black">{{ $dataUser->personalInformation->nama }}</p>
                                     </div> 
                                 </div>
                                 <div class="col-md-8 my-auto">
@@ -23,11 +23,11 @@
                                     <div class="mx-auto">
                                         <div class="row mb-2">
                                             <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">OPD </div>
-                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">KOMINFO</div>
+                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">{{ $dataUser->personalInformation->opd->nama }}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-3 text-right text-black fs-13 font-weight-bold">Unit Kerja </div>
-                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">Sub Koordinator Pengembangan Penyelenggaraan e-Government</div>
+                                            <div class="col-sm-9 fs-13 text-black-50 font-weight-bold">{{ $dataUser->personalInformation->unitKerja->nama }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -37,13 +37,13 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card shadow animate__animated animate__fadeInRight" style="height: 78px !important">
+                <div class="card shadow animate__animated animate__fadeInRight" style="height: 45% !important">
                     <div class="card-body px-4 py-2">
                         <div class="row">
                             <div class="col-md-6 text-center-m">
-                                <p class="m-0 fs-13 text-black-50 font-weight-bold">Jam Kerja</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">{{ $jamKerja->mulai_kerja }} - {{ $jamKerja->selesai_kerja }}</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">Masuk : {{ $absen->jam_masuk ? $absen->jam_masuk : '-' }}</p>
+                                <p class="m-0 fs-12 text-black-50 font-weight-bold">Jam Kerja</p>
+                                <p class="m-0 fs-12 text-black font-weight-bold">{{ $jamKerja ? $jamKerja->mulai_kerja: '-' }} - {{ $jamKerja ? $jamKerja->selesai_kerja : '-' }}</p>
+                                <p class="m-0 fs-12 text-black font-weight-bold">Masuk : {{ $absen ? $absen->jam_masuk : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
                                 <img src="{{ asset('images/clock.png') }}" class="mt-2 m-none" width="50" alt="Jam">
@@ -51,13 +51,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="card shadow bg-white mt-3 animate__animated animate__fadeInRight" style="height: 78px !important">
+                <div class="card shadow bg-white mt-3 animate__animated animate__fadeInRight" style="height: 45% !important">
                     <div class="card-body px-4 py-2">
                         <div class="row">
                             <div class="col-md-6 text-center-m">
-                                <p class="m-0 fs-13 text-black-50 font-weight-bold">Jam Kerja</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">{{ Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
-                                <p class="m-0 fs-13 text-black font-weight-bold">Keluar : {{ $absen->jam_keluar ? $absen->jam_keluar : '-' }}</p>
+                                <p class="m-0 fs-12 text-black-50 font-weight-bold">{{ Carbon\Carbon::now()->isoFormat('dddd') }}</p>
+                                <p class="m-0 fs-12 text-black font-weight-bold">{{ Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</p>
+                                <p class="m-0 fs-12 text-black font-weight-bold">Keluar : {{ $absen ? $absen->jam_keluar : '-' }}</p>
                             </div>
                             <div class="col-md-6 text-right text-center-m">
                                 <img src="{{ asset('images/calender.png') }}" class="mt-2 m-none" width="50" alt="Jam">
@@ -219,8 +219,8 @@
         searching: false,
         language: {
             paginate: {
-            next: '&#8594;', // or '→'
-            previous: '&#8592;' // or '←' 
+                next: '&#8594;', // or '→'
+                previous: '&#8592;' // or '←' 
             }
         },
         ajax: {

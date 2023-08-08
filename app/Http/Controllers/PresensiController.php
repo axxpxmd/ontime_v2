@@ -21,17 +21,16 @@ class PresensiController extends Controller
     {
         $title = $this->title;
         $shift = Auth::user()->shift_id;
+        $dataUser  = Auth::user();
         $dateToday = date('Y-m-d');
         $user_id   = Auth::user()->id;
         $role_id   = Auth::user()->role_id;
-        $keterangans = Utility::keterangan();
         $opd_id_user = $role_id == 1 ? null : Auth::user()->personalInformation->opd_id;
-        $namaLogin   = Auth::user()->personalInformation->nama;
 
-        $opds = OPD::select('id', 'nama')->get();
-        $keterangans = Utility::keterangan();
+        $opds  = OPD::select('id', 'nama')->get();
+        $absen = Present::where('tanggal', $dateToday)->where('user_id', $user_id)->first();
         $jamKerja    = JamKerja::whereN(date('N'))->where('shift_id', $shift)->first();
-        $absen       = Present::where('tanggal', $dateToday)->where('user_id', $user_id)->first();
+        $keterangans = Utility::keterangan();
 
         // Get Params
         $ket = $request->ket;
@@ -52,13 +51,13 @@ class PresensiController extends Controller
             'dateToday',
             'keterangans',
             'opd_id_user',
-            'namaLogin'
+            'dataUser'
         ));
     }
 
     public function dataTable($tanggal, $ket, $opd_id, $nama_pegawai)
     {
-        $data = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
+        $data = Present::queryPresent($tanggal, $ket, $opd_id, $nama_pegawai);
 
         return DataTables::of($data)
             ->addColumn('action', function ($p) {
@@ -108,7 +107,7 @@ class PresensiController extends Controller
         $opd_id = $request->opd_id;
         $nama_pegawai = $request->nama_pegawai;
 
-        $totalAbsen = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
+        $totalAbsen = Present::queryPresent($tanggal, $ket, $opd_id, $nama_pegawai);
 
         return ['totalAbsen' => count($totalAbsen)];
     }
@@ -177,7 +176,7 @@ class PresensiController extends Controller
         $opd_id = $request->opd_id;
         $nama_pegawai = $request->nama_pegawai;
 
-        $datas = Present::present($tanggal, $ket, $opd_id, $nama_pegawai);
+        $datas = Present::queryPresent($tanggal, $ket, $opd_id, $nama_pegawai);
 
         $opd = OPD::find($opd_id);
 

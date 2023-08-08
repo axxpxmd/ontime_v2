@@ -31,7 +31,7 @@ class Present extends Model
         return $this->belongsTo(PersonalInformation::class, 'user_id', 'user_id');
     }
 
-    public static function present($tanggal, $ket, $opd_id, $nama_pegawai)
+    public static function queryPresent($tanggal, $ket, $opd_id, $nama_pegawai)
     {
         $data = Present::select('presents.id', 'presents.user_id', 'keterangan', 'jam_masuk', 'jam_keluar', 'foto_datang', 'foto_pulang', 'lokasi_datang', 'lokasi_pulang', 'total_jam', 'tanggal')
             ->with(['user:id,username', 'user.personalInformation:id,user_id,nama'])
